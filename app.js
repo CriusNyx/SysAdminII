@@ -7,6 +7,8 @@ const port = 8000;
 const responsedelay = 50;   // miliseconds
 const BodyParser = require('body-parser')
 
+const SaveFile = require('./save.js')
+
 var cors = require('cors');
 
 app.use(cors());
@@ -61,9 +63,8 @@ router.post('/files-list', function(req, res)
 
 //Save: input file
 router.post('/save', function(req,res){
-    console.log('Save file')
-    console.log(req.body);
-    
+    console.log("Post: Save");
+    SaveFile.SaveFile("filepath", [])
 })
 
 
