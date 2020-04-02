@@ -18,7 +18,7 @@ function Main(){
                 <tr>
                 {ButtonLink('Project Info', '/ProjectInfo')}
                 {ButtonLink('Notepad', '/Notepad')}
-                {ButtonControl(3)}
+                {ButtonControl('foo')}
                 </tr>
                 <tr>
                 {ButtonControl(4)}
