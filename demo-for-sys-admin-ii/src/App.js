@@ -11,6 +11,7 @@ import {
 import Main from "./Main.js";
 import Notepad from './Notepad.js';
 import ProjectInfo from './ProjectInfo.js';
+import FileManager from './FileManager.js'
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
           </Route>
           <Route path="/ProjectInfo">
             <ProjectInfo/>
+          </Route>
+          <Route path="/FileManager">
+            <FileManager/>
           </Route>
           <Router path='/'>
             <Main/>

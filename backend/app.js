@@ -6,6 +6,7 @@ const router = express.Router();
 const port = 8000;
 const responsedelay = 50;   // miliseconds
 const BodyParser = require('body-parser')
+const database = require('./database.js')
 
 const SaveFile = require('./save.js')
 
@@ -63,15 +64,23 @@ router.post('/files-list', function(req, res)
 
 //Save: input file
 router.post('/save', function(req,res){
-    console.log("Post: Save");
-    SaveFile.SaveFile("filepath", [])
+    console.log('Save: ' + JSON.stringify(req.body));
+    var body = req.body
+    var username = body.username;
+    var filepath = body.filepath;
+    var bytes = body.bytes;
+    database.Save(username, filepath, bytes);
 })
 
 
 //Open
-router.post('/open', function(req,res){
-    console.log('Open file')
-
+router.post('/open', async function(req,res){
+    console.log('Open: ' + JSON.stringify(req.body));
+    var body = req.body
+    var username = body.username;
+    var filepath = body.filepath;
+    var result = await database.Open(username, filepath);
+    res.json({result});
 })
 
 
