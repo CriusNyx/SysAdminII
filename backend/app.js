@@ -69,7 +69,11 @@ router.post('/save', function(req,res){
     var username = body.username;
     var filepath = body.filepath;
     var bytes = body.bytes;
-    database.Save(username, filepath, bytes);
+
+    //validate
+    if(filepath != null && filepath !== '') {
+        database.Save(username, filepath, bytes);
+    }
 })
 
 
@@ -80,7 +84,24 @@ router.post('/open', async function(req,res){
     var username = body.username;
     var filepath = body.filepath;
     var result = await database.Open(username, filepath);
-    res.json({result});
+    var success = result != null
+    res.json({success, result});
+})
+
+
+//Get all files
+router.post('/get-all-files', async function(req, res){
+    console.log('Get All Files: ' + JSON.stringify(req.body));
+    var body = req.body;
+    var username = body.username;
+    var files = await database.GetAllFiles(username);
+    var success = files != null
+
+    var output = {success, files};
+    
+    console.log(JSON.stringify(output));
+
+    res.json(output);
 })
 
 

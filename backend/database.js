@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const dburl = 'mongodb://127.0.0.1:27017/game-of-thrones'
+const dburl = 'mongodb://127.0.0.1:27017/my-file-system'
 
 mongoose.connect( dburl, { useNewUrlParser: true })
 
@@ -54,6 +54,17 @@ async function Open(user, filepath){
     }
 }
 
+async function GetAllFiles(user){
+    var FileModel = mongoose.model('FileModel', fileSchema, user);
+
+    const doc = await FileModel.find({});
+
+    var files = doc.map(x => x.filepath);
+
+    return files;
+}
+
 
 exports.Save = Save;
 exports.Open = Open;
+exports.GetAllFiles = GetAllFiles;
