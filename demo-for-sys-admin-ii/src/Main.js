@@ -17,7 +17,7 @@ function Main(){
             <tbody>
                 <tr>
                 {ButtonLink('Project Info', '/ProjectInfo')}
-                {ButtonLink('Notepad', '/Notepad')}
+                {ButtonControl(2)}
                 {ButtonLink('File Manager', '/FileManager')}
                 </tr>
                 <tr>
