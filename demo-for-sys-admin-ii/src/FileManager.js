@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import TextBlobPanel from './TextBlobPanel';
 import TreeNode from './data-structures/ThreadedTreeNode';
+//import 'bootstrap/dist/css/bootstrap.min.css';
+import {Container, Row, Col} from 'react-bootstrap';
 
 const textBlobPanel = new TextBlobPanel({ name: 'Notepad', className: 'Fill-Parent' });
 
@@ -26,6 +28,7 @@ class FileManager extends React.Component{
     }
 
     render(){
+
         if(this.state.files == null){
             fetch('http://localhost:8000/api/get-all-files',{
             headers:{
@@ -42,6 +45,13 @@ class FileManager extends React.Component{
                 }
             });
         }
+
+        var width300 = { minWidth: '300px', maxWidth: '300px', width: '300px' };
+        var width30 = { minWidth: '30vw', maxWidth: '30vw', width: '30vw' };
+        var width60 = { minWidth: '40vw', maxWidth: '40vw', width: '40vw' };
+        var width100 = { minWidth: '100%', maxWidth: '100%', width: '100%' };
+        var textLeft = { textAlign: 'left' };
+
         return (
             <div className="App">
                 <header className="App-header">
@@ -49,19 +59,29 @@ class FileManager extends React.Component{
                     {this.GetUpOneLevelButton()}
                     {this.GetFileButtons()}
                     <from onSubmit={this.handleSubmit}>
-                        <label>
-                            File Text:
-                        </label>
-                        <input type='text' onChange={e => this.handleChange(e, 'text')} text={this.state.text}/>
+                        <table>
+                            <tr>
+                                <td style={width30}>
+                                    <label>
+                                        File Text
+                                    </label>
+                                </td>
+                                <td style={width60}>
+                                    <input style={width100} type='text' onChange={e => this.handleChange(e, 'filename')} text={this.state.filename}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style={width30}>
+                                    <label>
+                                        Save New File
+                                    </label>
+                                </td>
+                                <td style={width60}>
+                                    <input style={width100} type='text' onChange={e => this.handleChange(e, 'text')} text={this.state.text}/>
+                                </td>
+                            </tr>
+                        </table>
                     </from>
-                    <form onSubmit={this.handleSubmit}>
-                        
-                        <label>
-                            Save New File:
-                            <input type='text' onChange={e => this.handleChange(e, 'filename')} text={this.state.filename}/>
-                            <button onClick={this.Save}>Save</button>
-                        </label>
-                    </form>
                 </header>
             </div>);
     }
@@ -93,6 +113,8 @@ class FileManager extends React.Component{
     }
 
     GetFileButtons(){
+        var width300 = { minWidth: '300px', maxWidth: '300px', width: '300px' };
+
         var files = this.state.files;
         var currentFile = this.state.currentFile;
         if(files == null){
@@ -102,7 +124,7 @@ class FileManager extends React.Component{
             return null;
         }
         else{
-            return currentFile.children.map(x => <button onClick={() => this.OpenNode(x)}>{x.key}</button>);
+            return currentFile.children.map(x => <button style={width300} onClick={() => this.OpenNode(x)}>{x.key}</button>);
         }
     }
 
