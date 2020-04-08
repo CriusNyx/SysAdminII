@@ -25,25 +25,14 @@ class FileManager extends React.Component{
         this.UpOneLevel = this.UpOneLevel.bind(this);
         this.GetUpOneLevelButton = this.GetUpOneLevelButton.bind(this);
         this.GetCurrentFilePath = this.GetCurrentFilePath.bind(this);
+        this.GetFolderButtons = this.GetFolderButtons.bind(this);
+        this.LoadFilesFromServer = this.LoadFilesFromServer.bind(this);
     }
 
     render(){
 
         if(this.state.files == null){
-            fetch('http://localhost:8000/api/get-all-files',{
-            headers:{
-                'Content-Type': "application/json"
-            },
-            method:"POST",
-            body: JSON.stringify({ username:'rjreynoldsw@gmail.com' })
-            }).then((res) => {
-                return res.json()
-            }).then((data)=>{
-                if(data.success){
-                    var tree = this.FilesToTree(data.files);
-                    this.setState({files: tree, currentFile: tree});
-                }
-            });
+            this.LoadFilesFromServer();
         }
 
         var width300 = { minWidth: '300px', maxWidth: '300px', width: '300px' };
@@ -57,6 +46,13 @@ class FileManager extends React.Component{
                 <header className="App-header">
                     {this.GetCurrentFilePath()}
                     {this.GetUpOneLevelButton()}
+                    <p>
+                        Folders
+                    </p>
+                    {this.GetFolderButtons()}
+                    <p>
+                        Files
+                    </p>
                     {this.GetFileButtons()}
                     <from onSubmit={this.handleSubmit}>
                         <table>
@@ -67,7 +63,7 @@ class FileManager extends React.Component{
                                     </label>
                                 </td>
                                 <td style={width60}>
-                                    <input style={width100} type='text' onChange={e => this.handleChange(e, 'filename')} text={this.state.filename}/>
+                                    <input style={width100} type='text' onChange={e => this.handleChange(e, 'text')} text={this.state.filename}/>
                                 </td>
                             </tr>
                             <tr>
@@ -77,13 +73,33 @@ class FileManager extends React.Component{
                                     </label>
                                 </td>
                                 <td style={width60}>
-                                    <input style={width100} type='text' onChange={e => this.handleChange(e, 'text')} text={this.state.text}/>
+                                    <input style={width100} type='text' onChange={e => this.handleChange(e, 'filename')} text={this.state.text}/>
                                 </td>
                             </tr>
                         </table>
+                        <button onClick={this.Save}>
+                            Save
+                        </button>
                     </from>
                 </header>
             </div>);
+    }
+
+    LoadFilesFromServer(){
+        fetch('http://localhost:8000/api/get-all-files',{
+            headers:{
+                'Content-Type': "application/json"
+            },
+            method:"POST",
+            body: JSON.stringify({ username:'rjreynoldsw@gmail.com' })
+            }).then((res) => {
+                return res.json()
+            }).then((data)=>{
+                if(data.success){
+                    var tree = this.FilesToTree(data.files);
+                    this.setState({files: tree, currentFile: tree});
+                }
+            });
     }
 
     handleChange(event, field){
@@ -124,7 +140,45 @@ class FileManager extends React.Component{
             return null;
         }
         else{
-            return currentFile.children.map(x => <button style={width300} onClick={() => this.OpenNode(x)}>{x.key}</button>);
+            return currentFile.children.map(
+                x => 
+                {
+                    if(x.HasChildren())
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return <button style={width300} onClick={() => this.OpenNode(x)}>{x.key}</button>
+                    }
+                });
+        }
+    }
+
+    GetFolderButtons(){
+        var width300 = { minWidth: '300px', maxWidth: '300px', width: '300px' };
+
+        var files = this.state.files;
+        var currentFile = this.state.currentFile;
+        if(files == null){
+            return null;
+        }
+        else if (currentFile == null){
+            return null;
+        }
+        else{
+            return currentFile.children.map(
+                x => 
+                {
+                    if(x.HasChildren())
+                    {
+                        return <button style={width300} onClick={() => this.OpenNode(x)}>{x.key}</button>
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                });
         }
     }
 
@@ -148,7 +202,7 @@ class FileManager extends React.Component{
                 },
                 method:"POST",
                 body: JSON.stringify({ username:'rjreynoldsw@gmail.com', filepath: path, bytes: [...Buffer.from(this.state.text)] })
-            });
+            }).then(this.LoadFilesFromServer());
         }
     }
 
