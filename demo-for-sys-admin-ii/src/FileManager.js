@@ -6,6 +6,8 @@ import TreeNode from './data-structures/ThreadedTreeNode';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Row, Col} from 'react-bootstrap';
 
+const serverurl = 'http://35.238.4.160:80'
+
 const textBlobPanel = new TextBlobPanel({ name: 'Notepad', className: 'Fill-Parent' });
 
 class FileManager extends React.Component{
@@ -86,7 +88,7 @@ class FileManager extends React.Component{
     }
 
     LoadFilesFromServer(){
-        fetch('http://localhost:8000/api/get-all-files',{
+        fetch(serverurl + '/api/get-all-files',{
             headers:{
                 'Content-Type': "application/json"
             },
@@ -196,7 +198,7 @@ class FileManager extends React.Component{
             else{
                 path = path + '/' + this.state.filename;
             }
-            fetch('http://localhost:8000/api/save',{
+            fetch(serverurl + '/api/save',{
                 headers:{
                     'Content-Type': "application/json"
                 },
@@ -210,7 +212,7 @@ class FileManager extends React.Component{
         if(filename == null){
             filename = this.state.filepath
         }
-        fetch('http://localhost:8000/api/open',{
+        fetch(serverurl + '/api/open',{
             headers:{
                 'Content-Type': "application/json"
             },
