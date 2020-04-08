@@ -65,6 +65,8 @@ router.post('/files-list', function(req, res)
 //Save: input file
 router.post('/save', function(req,res){
     console.log('Save: ' + JSON.stringify(req.body));
+    console.log('');
+
     var body = req.body
     var username = body.username;
     var filepath = body.filepath;
@@ -80,6 +82,8 @@ router.post('/save', function(req,res){
 //Open
 router.post('/open', async function(req,res){
     console.log('Open: ' + JSON.stringify(req.body));
+    console.log('');
+
     var body = req.body
     var username = body.username;
     var filepath = body.filepath;
@@ -92,6 +96,8 @@ router.post('/open', async function(req,res){
 //Get all files
 router.post('/get-all-files', async function(req, res){
     console.log('Get All Files: ' + JSON.stringify(req.body));
+    console.log('');
+    
     var body = req.body;
     var username = body.username;
     var files = await database.GetAllFiles(username);

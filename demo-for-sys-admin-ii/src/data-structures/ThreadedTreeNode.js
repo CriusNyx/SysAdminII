@@ -13,6 +13,11 @@ class TreeNode
         this.GetChild = this.GetChild.bind(this);
         this.Print = this.Print.bind(this);
         this.GetPath = this.GetPath.bind(this);
+        this.HasChildren = this.HasChildren.bind(this);
+    }
+
+    HasChildren(){
+        return this.children !== null && this.children.length > 0;
     }
 
     AddChild(key){
