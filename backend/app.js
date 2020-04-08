@@ -3,7 +3,7 @@ const app = express();
 const fs = require('fs');
 const multer = require('multer');
 const router = express.Router();
-const port = 8000;
+const port = 80;
 const responsedelay = 50;   // miliseconds
 const BodyParser = require('body-parser')
 const database = require('./database.js')
@@ -97,7 +97,7 @@ router.post('/open', async function(req,res){
 router.post('/get-all-files', async function(req, res){
     console.log('Get All Files: ' + JSON.stringify(req.body));
     console.log('');
-    
+
     var body = req.body;
     var username = body.username;
     var files = await database.GetAllFiles(username);
