@@ -3,7 +3,7 @@ const app = express();
 const fs = require('fs');
 const multer = require('multer');
 const router = express.Router();
-const port = 80;
+const port = 8000;
 const responsedelay = 50;   // miliseconds
 const BodyParser = require('body-parser')
 const database = require('./database.js')
@@ -61,6 +61,18 @@ router.post('/files-list', function(req, res)
         }
     });
 });
+
+//Sign-In
+router.post('/sign-in', function(req, res){
+        console.log (JSON.stringify(req.body))
+
+        //var body = req.body
+        //var username = body.username;
+        //var password = body.password;
+})
+
+
+
 
 //Save: input file
 router.post('/save', function(req,res){
