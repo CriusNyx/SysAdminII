@@ -20,7 +20,6 @@ import TeamMembers from './TeamMembers.js';
 import Demo from "./Demo.js";
 import ProjectAccess from "./ProjectAccess.js";
 import Steps from "./Steps.js";
-//import {useCookies} from 'react-cookie';
 
 
 
