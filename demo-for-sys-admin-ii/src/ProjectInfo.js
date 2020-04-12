@@ -16,7 +16,7 @@ function ProjectInfo(){
                         How is this a software-as-a-service?
                     </tr>
                     <tr>
-                        We are providing a file manager and text editor applications for multiple users to use as they wish. 
+                        We are providing a complete file server with a text editor that allows both text and binary input for multiple users to use as they wish. 
                     </tr>
                 </tbody>
             </table>
