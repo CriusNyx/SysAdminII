@@ -1,4 +1,6 @@
 import React from 'react';
+import {CopyBlock} from 'react-code-blocks';
+//See https://github.com/rajinwonderland/react-code-blocks to see how to use code-blocks library
 
 function Steps(){
     return (
