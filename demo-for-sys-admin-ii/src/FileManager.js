@@ -5,12 +5,19 @@ import TextBlobPanel from './TextBlobPanel';
 import TreeNode from './data-structures/ThreadedTreeNode';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Row, Col} from 'react-bootstrap';
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 
 const serverurl = 'http://localhost:8000'
 
 const textBlobPanel = new TextBlobPanel({ name: 'Notepad', className: 'Fill-Parent' });
 
 class FileManager extends React.Component{
+
+    static propTypes = {
+        cookies: instanceOf(Cookies).isRequired
+    };
+
     constructor(props){
         super(props);
 
@@ -29,6 +36,7 @@ class FileManager extends React.Component{
         this.GetCurrentFilePath = this.GetCurrentFilePath.bind(this);
         this.GetFolderButtons = this.GetFolderButtons.bind(this);
         this.LoadFilesFromServer = this.LoadFilesFromServer.bind(this);
+        this.getAuth = this.getAuth.bind(this);
     }
 
     render(){
@@ -43,9 +51,23 @@ class FileManager extends React.Component{
         var width100 = { minWidth: '100%', maxWidth: '100%', width: '100%' };
         var textLeft = { textAlign: 'left' };
 
+        var loginIndicator;
+
+        var login = this.getAuth();
+
+        if(login){
+            loginIndicator = <p>Logged in as {login.username}</p>
+        }
+        else{
+            loginIndicator = <p>Not logged in. Please visit the log in page <a href='/SignIn'>login</a></p>
+        }
+
         return (
             <div className="App">
                 <header className="App-header">
+
+                    {loginIndicator}
+
                     {this.GetCurrentFilePath()}
                     {this.GetUpOneLevelButton()}
                     <p>
@@ -94,6 +116,7 @@ class FileManager extends React.Component{
             },
             method:"POST",
             body: JSON.stringify({
+                auth: this.getAuth()
             })
             }).then((res) => {
                 return res.json()
@@ -106,6 +129,14 @@ class FileManager extends React.Component{
                      window.location.href = 'http://IP/SignIn';
                 }
             });
+    }
+
+    getAuth(){
+        const { cookies } = this.props;
+
+        var login = cookies.get('login');
+
+        return login;
     }
 
     handleChange(event, field){
@@ -190,26 +221,30 @@ class FileManager extends React.Component{
 
     Save(){
         var currentNode = this.state.currentFile;
-            if(currentNode == null){
-                return;
+
+        alert('save');
+
+        if(currentNode == null){
+            return;
+        }
+        else{
+            var path = currentNode.GetPath();
+        
+            path = path.substring(5);
+            if(path === ''){
+                path = path + this.state.filename;
             }
             else{
-                var path = currentNode.GetPath();
-                path = path.substring(5);
-                if(path === ''){
-                    path = path + this.state.filename;
-                }
-                else{
-                    path = path + '/' + this.state.filename;
-                }
-                fetch(serverurl + '/api/save',{
-                    headers:{
-                        'Content-Type': "application/json"
-                    },
-                    method:"POST",
-                    body: JSON.stringify({ username:'rjreynoldsw@gmail.com', filepath: path, bytes: [...Buffer.from(this.state.text)] })
-                }).then(this.LoadFilesFromServer());
+                path = path + '/' + this.state.filename;
             }
+            fetch(serverurl + '/api/save',{
+                headers:{
+                    'Content-Type': "application/json"
+                },
+                method:"POST",
+                body: JSON.stringify({ auth: this.getAuth(), filepath: path, bytes: [...Buffer.from(this.state.text)] })
+            }).then(this.LoadFilesFromServer());
+        }
     }
 
     Open(filename = null){
@@ -221,7 +256,7 @@ class FileManager extends React.Component{
                 'Content-Type': "application/json"
             },
             method:"POST",
-            body: JSON.stringify({ username:'rjreynoldsw@gmail.com', filepath: filename })
+            body: JSON.stringify({ auth: this.getAuth(), filepath: filename })
         }).then((res) =>{
             return res.json();
         }).then((data) => {
@@ -277,4 +312,4 @@ class FileManager extends React.Component{
     }
 }
 
-export default FileManager;
+export default withCookies(FileManager);

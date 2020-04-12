@@ -63,30 +63,34 @@ router.post('/files-list', function(req, res)
 });
 
 //Sign-In
-router.post('/sign-in', function(req, res){
-        console.log (JSON.stringify(req.body))
-
-        //var body = req.body
-        //var username = body.username;
-        //var password = body.password;
+router.post('/signin', function(req, res){
+        console.log ('Signin: ' + JSON.stringify(req.body))
+        const { username, password } = req.body;
+        database.Validate(username, password).then(x => {console.log(x); res.json({success: x});});
 })
 
 
 
 
 //Save: input file
-router.post('/save', function(req,res){
+router.post('/save', async function(req,res){
     console.log('Save: ' + JSON.stringify(req.body));
     console.log('');
 
     var body = req.body
-    var username = body.username;
-    var filepath = body.filepath;
+    var auth = req.body.auth;
+    var filepath = req.body.filepath
     var bytes = body.bytes;
 
     //validate
     if(filepath != null && filepath !== '') {
-        database.Save(username, filepath, bytes);
+        const result = await database.Save(auth, filepath, bytes);
+        if(result){
+            res.json({success: true});
+        }
+        else{
+            res.json({success: false});
+        }
     }
 })
 
@@ -97,9 +101,9 @@ router.post('/open', async function(req,res){
     console.log('');
 
     var body = req.body
-    var username = body.username;
+    var auth = body.auth;
     var filepath = body.filepath;
-    var result = await database.Open(username, filepath);
+    var result = await database.Open(auth, filepath);
     var success = result != null
     res.json({success, result});
 })
@@ -111,8 +115,8 @@ router.post('/get-all-files', async function(req, res){
     console.log('');
 
     var body = req.body;
-    var username = body.username;
-    var files = await database.GetAllFiles(username);
+    var auth = body.auth;
+    var files = await database.GetAllFiles(auth);
     var success = files != null
 
     var output = {success, files};
