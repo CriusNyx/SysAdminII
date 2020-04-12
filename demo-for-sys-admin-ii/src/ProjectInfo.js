@@ -7,12 +7,21 @@ function ProjectInfo(){
             <h1>
                 Project Information
             </h1>
-            <p>
-                Here is our new super cool project that we made for class, 
-                CSI-3670 System Administration II, at Oakland University 
-                in Winter 2020 with our computers and our l33t hacking 
-                skills and also our brains, and our muscles.
-            </p>
+            <table>
+                <tbody>
+                    <tr>
+                        URL For Project: Teamdynamicprogramming.com
+                    </tr>
+                    <tr>
+                        How is this a software-as-a-service?
+                    </tr>
+                    <tr>
+                        We are providing a file manager and text editor applications for multiple users to use as they wish. 
+                    </tr>
+                </tbody>
+            </table>
+                
+            
         </header>
     </div>
     )

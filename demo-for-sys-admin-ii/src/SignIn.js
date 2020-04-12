@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
 import TableButton from './Controls/TableButton.js';
-import { useCookies } from 'react-Cookie';
+//import { useCookies } from 'react-Cookie';
 
 
 const serverurl = 'http://localhost:8000'
-const [cookies, setCookie] = useCookies(['name']);
+//const [cookies, setCookie] = useCookies(['name']);
 
 
 class SignIn extends React.Component{
@@ -35,7 +35,7 @@ class SignIn extends React.Component{
         }).then((data) => {
             if(data.success){
                 alert(Buffer.from(data.result));
-                setCookie('loginSuccess', {username: this.state.username, password: this.state.password}, {path: '/'});
+                //setCookie('loginSuccess', {username: this.state.username, password: this.state.password}, {path: '/'});
             }
             else{
                alert("Failed");
