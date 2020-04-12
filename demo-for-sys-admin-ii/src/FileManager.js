@@ -6,7 +6,7 @@ import TreeNode from './data-structures/ThreadedTreeNode';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container, Row, Col} from 'react-bootstrap';
 
-const serverurl = 'http://35.238.4.160:80'
+const serverurl = 'http://localhost:8000'
 
 const textBlobPanel = new TextBlobPanel({ name: 'Notepad', className: 'Fill-Parent' });
 
@@ -56,7 +56,7 @@ class FileManager extends React.Component{
                         Files
                     </p>
                     {this.GetFileButtons()}
-                    <from onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.handleSubmit}>
                         <table>
                             <tr>
                                 <td style={width30}>
@@ -65,7 +65,7 @@ class FileManager extends React.Component{
                                     </label>
                                 </td>
                                 <td style={width60}>
-                                    <input style={width100} type='text' onChange={e => this.handleChange(e, 'text')} text={this.state.filename}/>
+                                    <input style={width100} type='text' onChange={e => this.handleChange(e, 'text')} text={this.state.text}/>
                                 </td>
                             </tr>
                             <tr>
@@ -75,14 +75,14 @@ class FileManager extends React.Component{
                                     </label>
                                 </td>
                                 <td style={width60}>
-                                    <input style={width100} type='text' onChange={e => this.handleChange(e, 'filename')} text={this.state.text}/>
+                                    <input style={width100} type='text' onChange={e => this.handleChange(e, 'filename')} text={this.state.filename}/>
                                 </td>
                             </tr>
                         </table>
                         <button onClick={this.Save}>
                             Save
                         </button>
-                    </from>
+                    </form>
                 </header>
             </div>);
     }
@@ -93,13 +93,17 @@ class FileManager extends React.Component{
                 'Content-Type': "application/json"
             },
             method:"POST",
-            body: JSON.stringify({ username:'rjreynoldsw@gmail.com' })
+            body: JSON.stringify({
+            })
             }).then((res) => {
                 return res.json()
             }).then((data)=>{
                 if(data.success){
                     var tree = this.FilesToTree(data.files);
                     this.setState({files: tree, currentFile: tree});
+                }
+                else{
+                     window.location.href = 'http://IP/SignIn';
                 }
             });
     }
@@ -186,26 +190,26 @@ class FileManager extends React.Component{
 
     Save(){
         var currentNode = this.state.currentFile;
-        if(currentNode == null){
-            return;
-        }
-        else{
-            var path = currentNode.GetPath();
-            path = path.substring(5);
-            if(path === ''){
-                path = path + this.state.filename;
+            if(currentNode == null){
+                return;
             }
             else{
-                path = path + '/' + this.state.filename;
+                var path = currentNode.GetPath();
+                path = path.substring(5);
+                if(path === ''){
+                    path = path + this.state.filename;
+                }
+                else{
+                    path = path + '/' + this.state.filename;
+                }
+                fetch(serverurl + '/api/save',{
+                    headers:{
+                        'Content-Type': "application/json"
+                    },
+                    method:"POST",
+                    body: JSON.stringify({ username:'rjreynoldsw@gmail.com', filepath: path, bytes: [...Buffer.from(this.state.text)] })
+                }).then(this.LoadFilesFromServer());
             }
-            fetch(serverurl + '/api/save',{
-                headers:{
-                    'Content-Type': "application/json"
-                },
-                method:"POST",
-                body: JSON.stringify({ username:'rjreynoldsw@gmail.com', filepath: path, bytes: [...Buffer.from(this.state.text)] })
-            }).then(this.LoadFilesFromServer());
-        }
     }
 
     Open(filename = null){
@@ -229,6 +233,8 @@ class FileManager extends React.Component{
             }
         });
     }
+
+    
 
     FilesToTree(files){
         var root = new TreeNode('root');

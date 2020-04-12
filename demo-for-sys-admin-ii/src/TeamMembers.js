@@ -1,30 +1,28 @@
 import React from 'react';
 
-function ProjectInfo(){
+function TeamMembers(){
     return (
         <div className="App">
         <header className="App-header">
             <h1>
-                Project Information
+                Team Info
             </h1>
             <table>
                 <tbody>
                     <tr>
-                        URL For Project: Teamdynamicprogramming.com
+                        RJ Reynolds - Web server design and implementation
                     </tr>
                     <tr>
-                        How is this a software-as-a-service?
+                        Loi Huynh - Database/Backend design and implementation
                     </tr>
                     <tr>
-                        We are providing a file manager and text editor applications for multiple users to use as they wish. 
+                        Nathan Haberland - SSO implementation and project descriptions
                     </tr>
                 </tbody>
             </table>
-                
-            
         </header>
     </div>
     )
 }
 
-export default ProjectInfo;
+export default TeamMembers;

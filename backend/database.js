@@ -19,6 +19,12 @@ const fileSchema = new mongoose.Schema({
     binary: Buffer
 });
 
+const userLoginSchema = new mongoose.Schema({
+    username: String,
+    password: String
+});
+var UserLoginModel = mongoose.model('UserLoginModel', userLoginSchema, 'Username');
+
 async function Save(user, filepath, data){
 
     var buffer = {type: 'Buffer', data};
