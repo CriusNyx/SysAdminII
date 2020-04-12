@@ -5,7 +5,7 @@ import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 
 
-const serverurl = 'http://35.224.243.37:8000'
+const serverurl = 'http://35.224.243.37:80'
 
 class SignIn extends React.Component{
 
