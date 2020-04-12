@@ -3,7 +3,7 @@ const app = express();
 const fs = require('fs');
 const multer = require('multer');
 const router = express.Router();
-const port = 8000;
+const port = 80;
 const responsedelay = 50;   // miliseconds
 const BodyParser = require('body-parser')
 const database = require('./database.js')
@@ -102,7 +102,7 @@ router.post('/open', async function(req,res){
 
     var body = req.body
     var auth = body.auth;
-    var filepath = body.filepath;
+    var filepath = body.filepath
     var result = await database.Open(auth, filepath);
     var success = result != null
     res.json({success, result});
