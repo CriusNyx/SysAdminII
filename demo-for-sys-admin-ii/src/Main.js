@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import TableButton from './Controls/TableButton.js';
 
+
+
 function Main(){
     return (<div className="App">
         <header className="App-header">
@@ -13,15 +15,18 @@ function Main(){
             This web portal allows you to access different apps, 
             and lets you save your progress locally or remotely.
             </p>
+            <p>
+            {ButtonLink('Sign In', './SignIn')}
+            </p>
             <table>
             <tbody>
                 <tr>
                 {ButtonLink('Project Info', '/ProjectInfo')}
-                {ButtonControl(2)}
+                {ButtonLink('Privacy Policy',  '/PrivacyPolicy')}
                 {ButtonLink('File Manager', '/FileManager')}
                 </tr>
                 <tr>
-                {ButtonControl(4)}
+                {ButtonLink('The Team', '/TeamMembers')}
                 {ButtonControl(5)}
                 {ButtonControl(6)}
                 </tr>
