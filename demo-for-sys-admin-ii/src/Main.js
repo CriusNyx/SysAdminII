@@ -27,13 +27,11 @@ function Main(){
                 </tr>
                 <tr>
                 {ButtonLink('The Team', '/TeamMembers')}
-                {ButtonControl(5)}
-                {ButtonControl(6)}
+                {ButtonLink('Demo', '/Demo')}
+                {ButtonLink('Access', '/ProjectAccess')}
                 </tr>
                 <tr>
-                {ButtonControl(7)}
-                {ButtonControl(8)}
-                {ButtonControl(9)}
+                {ButtonLink('Steps', '/Steps')}
                 </tr>
             </tbody>
             </table>

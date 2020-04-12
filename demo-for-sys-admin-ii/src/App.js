@@ -17,7 +17,9 @@ import FileManager from './FileManager.js'
 import PrivacyPolicy from './PrivacyPolicy.js'
 import SignIn from './SignIn.js';
 import TeamMembers from './TeamMembers.js';
-import {useCookies} from 'react-cookie';
+import Demo from "./Demo.js";
+import ProjectAccess from "./ProjectAccess.js";
+import Steps from "./Steps.js";
 
 
 
@@ -45,6 +47,15 @@ function App() {
           </Route>
           <Route path="/TeamMembers">
             <TeamMembers/>
+          </Route>
+          <Route path="/Demo">
+            <Demo/>
+          </Route>
+          <Route path="/ProjectAccess">
+            <ProjectAccess/>
+          </Route>
+          <Route path="/Steps">
+            <Steps/>
           </Route>
           <Router path='/'>
             <Main/>

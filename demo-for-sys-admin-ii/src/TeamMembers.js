@@ -13,10 +13,10 @@ function TeamMembers(){
                         RJ Reynolds - Web server design and implementation
                     </tr>
                     <tr>
-                        Loi Huynh - Database design and implementation
+                        Loi Huynh - Database/Backend design and implementation
                     </tr>
                     <tr>
-                        Nathan Haberland - SSO implementation
+                        Nathan Haberland - SSO implementation and project descriptions
                     </tr>
                 </tbody>
             </table>
