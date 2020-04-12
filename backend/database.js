@@ -19,58 +19,116 @@ const fileSchema = new mongoose.Schema({
     binary: Buffer
 });
 
-const userLoginSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     username: String,
     password: String
-});
-var UserLoginModel = mongoose.model('UserLoginModel', userLoginSchema, 'Username');
+})
 
-async function Save(user, filepath, data){
+const UserModel = mongoose.model('UserModel', userSchema, 'users');
 
-    var buffer = {type: 'Buffer', data};
+async function Save(auth, filepath, data){
 
-     var FileModel = mongoose.model('FileModel', fileSchema, user);
+    const { username, password } = auth;
 
-     const doc = await FileModel.findOne({filepath});
+    const valid = await Validate(username, password);
 
-     if(doc == null){
-         var file = new FileModel({filepath, binary: buffer});
-        file.save();
-     }
-     else{
-         doc.binary = buffer;
-         doc.save();
-     }
+    if(valid){
+        var buffer = {type: 'Buffer', data};
+    
+         var FileModel = mongoose.model('FileModel', fileSchema, username);
+    
+         const doc = await FileModel.findOne({filepath});
+    
+         if(doc == null){
+             var file = new FileModel({filepath, binary: buffer});
+            file.save();
+         }
+         else{
+             doc.binary = buffer;
+             doc.save();
+         }
+
+         return true;
+    }
+    else{
+        return false;
+    }
+
 }
 
-async function Open(user, filepath){
-    var FileModel = mongoose.model('FileModel', fileSchema, user);
+async function Open(auth, filepath){
 
-    const doc = await FileModel.findOne({filepath});
+    const { username, password } = auth; 
+
+    const valid = await Validate(username, password);
+
+    if(valid){
+        var FileModel = mongoose.model('FileModel', fileSchema, username);
+
+        const doc = await FileModel.findOne({filepath});
+    
+        console.log(doc);
+    
+        if(doc == null){
+            return null
+        }
+        else{
+            var buffer = doc.binary;
+            var arr = [...buffer];
+            return arr;
+        }
+    }
+    else{
+        return null;
+    }
+}
+
+async function GetAllFiles(auth){
+
+    const { username, password } = auth;
+
+    const valid = await Validate(username, password);
+
+    if(valid){
+        var FileModel = mongoose.model('FileModel', fileSchema, username);
+
+        const doc = await FileModel.find({});
+
+        var files = doc.map(x => x.filepath);
+
+        return files;
+    }
+    else{
+        return null;
+    }
+}
+
+async function Validate(username, password){
+    const doc = await UserModel.findOne({username, password});
 
     console.log(doc);
 
-    if(doc == null){
-        return null
+    if(doc === null){
+        return false;
+    }
+    else if(doc === []){
+        return false;
     }
     else{
-        var buffer = doc.binary;
-        var arr = [...buffer];
-        return arr;
+        if(doc.username !== username){
+            return false;
+        }
+        else if(doc.password !== password){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
-}
-
-async function GetAllFiles(user){
-    var FileModel = mongoose.model('FileModel', fileSchema, user);
-
-    const doc = await FileModel.find({});
-
-    var files = doc.map(x => x.filepath);
-
-    return files;
 }
 
 
 exports.Save = Save;
 exports.Open = Open;
+exports.Validate = Validate;
 exports.GetAllFiles = GetAllFiles;
