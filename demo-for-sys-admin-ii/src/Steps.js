@@ -12,21 +12,32 @@ function Steps(){
             <table>
                 <tbody>
                     <tr>
-                    Use git to clone the project on the frontend and backend server git clone https://github.com/CriusNyx/SysAdminII
+                        Use git to clone the project on the frontend and backend server 
+                    </tr>
+                    <br/>
+                    <tr>
+                        <CodeBlock
+                            text={"git clone https://github.com/CriusNyx/SysAdminII"}
+                            language={"bash"}
+                            />
+                    </tr>
+                    <br/>
+                    <tr>
+                        <h2>
+                            Installation:
+                        </h2>
                     </tr>
                     <tr>
-                        <h2>Installation:</h2>
-                    </tr>
-                    <tr>
-                        <h3>Frontend:</h3>
+                        <h3>
+                            Frontend:
+                        </h3>
                     </tr>
                     <tr>
                         <p>
-                        Install the following dependancies using your systems package manager: 
+                            Install the following dependancies using your systems package manager: 
                         </p>
                     </tr>
                     <tr>
-                                    
                         docker
                     </tr>
                     <tr>
