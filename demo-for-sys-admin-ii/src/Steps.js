@@ -1,5 +1,5 @@
 import React from 'react';
-import {CopyBlock} from 'react-code-blocks';
+import { CodeBlock } from 'react-code-blocks';
 //See https://github.com/rajinwonderland/react-code-blocks to see how to use code-blocks library
 
 function Steps(){
@@ -75,9 +75,14 @@ function Steps(){
                     <tr>
                         Run the following command in the SysAdminII directory:
                     </tr>
+                    <br/>
                     <tr>
-                        sudo bash build-and-run.sh
+                        <CodeBlock
+                            text={"sudo bash build-and-run.sh"}
+                            language={"bash"}
+                            />
                     </tr>
+                    <br/>
                     <tr>
                         The scrupt will build and deploy the server.
                     </tr>
@@ -87,9 +92,15 @@ function Steps(){
                     <tr>
                         Run the following command in the SysAdminII/backend directory:
                     </tr>
+                    <br/>
                     <tr>
-                        sudo back start-server.sh
+                        <CodeBlock
+                            text={"sudo back start-server.sh"}
+                            language={"bash"}
+                            />
+                        
                     </tr>
+                    <br/>
                     <tr>
                         The script will build and deploy the backend server.
                     </tr>
@@ -108,8 +119,12 @@ function Steps(){
                     <tr>
                         Run the following command in the SysAdminII directory:
                     </tr>
+                    <br/>
                     <tr>
-                        git pull https://github.com/CriusNyx/SysAdminII
+                        <CodeBlock 
+                            text={"git pull https://github.com/CriusNyx/SysAdminII"}
+                            language={'bash'}
+                            />
                     </tr>
                 </tbody>
             </table>
